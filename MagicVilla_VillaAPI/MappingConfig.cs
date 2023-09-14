@@ -26,6 +26,10 @@ namespace MagicVilla_VillaAPI
 
             //Add service to program.cs 
             // after that configer mapping in ApiController.
+
+            CreateMap<VillaNumber, VillaNumberDTO>().ReverseMap();
+            CreateMap<VillaNumber, VillaNumberCreateDTO>().ReverseMap();
+            CreateMap<VillaNumber, VillaNumberUpdateDTO>().ReverseMap();
         }
     }
 }
