@@ -34,7 +34,6 @@ namespace MagicVilla_VillaAPI.Controllers
         //----------------------------------------------------------------------------------------------------
 
         [HttpGet] //Endpoint
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(200)] // remove Undocumented
@@ -60,7 +59,6 @@ namespace MagicVilla_VillaAPI.Controllers
         //----------------------------------------------------------------------------------------------------
 
         [HttpGet("{id:int}",Name ="GetVilla")]
-        [Authorize(Roles = "admin")]
         // [ProducesResponseType(200)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -105,6 +103,7 @@ namespace MagicVilla_VillaAPI.Controllers
         //----------------------------------------------------------------------------------------------------
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -155,7 +154,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType (StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [Authorize(Roles = "CUSTOM")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<APIResponse>> DeleteVilla(int id) 
         {
             try
@@ -185,6 +184,7 @@ namespace MagicVilla_VillaAPI.Controllers
         //----------------------------------------------------------------------------------------------------
 
         [HttpPut("{id:int}", Name = "UpdateVilla")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO UpdateDTO)

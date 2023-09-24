@@ -3,6 +3,7 @@ using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.DTO;
 using MagicVilla_VillaAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
@@ -98,6 +99,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
         //----------------------------------------------------------------------------------------------------
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -138,6 +140,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
         //----------------------------------------------------------------------------------------------------
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id:int}",Name = "DeleteVillaNumber")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType (StatusCodes.Status400BadRequest)]
@@ -170,6 +173,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
         //----------------------------------------------------------------------------------------------------
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id:int}", Name = "UpdateVillaNumber")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
