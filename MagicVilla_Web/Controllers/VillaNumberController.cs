@@ -113,48 +113,21 @@ namespace MagicVilla_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateVillaNumber(VillaNumberUpdateVM model)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    var responcee = await _villaNumberService.UpdateAsync<APIResponse>(model.VillaNumber);
-            //    if (responcee != null && responcee.IsSuccess)
-            //    {
-            //        return RedirectToAction(nameof(IndexVillaNumber));
-            //    }
-            //    else
-            //    {
-            //        if (responcee.ErrorMessages.Count > 0)
-            //        {
-            //            ModelState.AddModelError("ErrorMessages", responcee.ErrorMessages.FirstOrDefault());
-            //        }
-            //    }
-            //}
             if (ModelState.IsValid)
             {
                 var responcee = await _villaNumberService.UpdateAsync<APIResponse>(model.VillaNumber);
-                if (responcee != null)
+                if (responcee != null && responcee.IsSuccess)
                 {
-                    if (responcee.IsSuccess)
-                    {
-                        return RedirectToAction(nameof(IndexVillaNumber));
-                    }
-                    else
-                    {
-                        if (responcee.ErrorMessages != null && responcee.ErrorMessages.Count > 0)
-                        {
-                            ModelState.AddModelError("ErrorMessages", responcee.ErrorMessages.FirstOrDefault());
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("ErrorMessages", "An error occurred during the update.");
-                        }
-                    }
+                    return RedirectToAction(nameof(IndexVillaNumber));
                 }
                 else
                 {
-                    ModelState.AddModelError("ErrorMessages", "No response from the service.");
+                    if (responcee.ErrorMessages.Count > 0)
+                    {
+                        ModelState.AddModelError("ErrorMessages", responcee.ErrorMessages.FirstOrDefault());
+                    }
                 }
             }
-
 
             var responce = await _VillaService.GetAllAsync<APIResponse>();
             if (responce != null && responce.IsSuccess)
