@@ -13,11 +13,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
-  
+
     // [Route("api/[controller]")]
     [Route("api/VillaAPI")]
-
     [ApiController] // Attribute
+
     public class VillaAPIController : ControllerBase
     {
         // Dependancies Injection
@@ -28,7 +28,7 @@ namespace MagicVilla_VillaAPI.Controllers
         {
             _dbVilla = dbVilla;
             _mapper = mapper;
-            this._response = new APIResponse();
+            _response = new APIResponse();
         }
 
         //----------------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(200)] // remove Undocumented
-        public async Task< ActionResult <APIResponse>> GetVillas()
+        public async Task<ActionResult<APIResponse>> GetVillas()
         {
             try
             {
@@ -47,18 +47,18 @@ namespace MagicVilla_VillaAPI.Controllers
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
-            
+
             }
             return _response;
         }
 
         //----------------------------------------------------------------------------------------------------
 
-        [HttpGet("{id:int}",Name ="GetVilla")]
+        [HttpGet("{id:int}", Name = "GetVilla")]
         // [ProducesResponseType(200)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -80,10 +80,10 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 var Villa = await _dbVilla.GetAsync(u => u.Id == id);
 
-                if (Villa == null) 
+                if (Villa == null)
                 {
                     _response.StatusCode = HttpStatusCode.NotFound;
-                    return NotFound(_response); 
+                    return NotFound(_response);
                 }
 
                 _response.Result = _mapper.Map<VillaDTO>(Villa);
@@ -107,7 +107,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO CreateDTO) 
+        public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO CreateDTO)
         {
             try
             {
@@ -148,14 +148,14 @@ namespace MagicVilla_VillaAPI.Controllers
 
         //----------------------------------------------------------------------------------------------------
 
-        [HttpDelete("{id:int}",Name ="DeleteVilla")]
+        [HttpDelete("{id:int}", Name = "DeleteVilla")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType (StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<APIResponse>> DeleteVilla(int id) 
+        public async Task<ActionResult<APIResponse>> DeleteVilla(int id)
         {
             try
             {
@@ -230,47 +230,48 @@ namespace MagicVilla_VillaAPI.Controllers
 
         public async Task<ActionResult<APIResponse>> UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDTO> PatchDTO)
         {
-            try { 
-            if(PatchDTO == null || id == 0) { return  BadRequest(); }
+            try
+            {
+                if (PatchDTO == null || id == 0) { return BadRequest(); }
 
-            var villa = await _dbVilla.GetAsync(u => u.Id == id, tracked:false);
+                var villa = await _dbVilla.GetAsync(u => u.Id == id, tracked: false);
 
-            VillaUpdateDTO villaDTO = _mapper.Map<VillaUpdateDTO>(villa); // that one line code replace whole code in blow code.
-            //VillaUpdateDTO villaDTO = new()
-            //{
-            //    Amenity = villa.Amenity,
-            //    Details = villa.Details,
-            //    Id = villa.Id,
-            //    ImageUrl = villa.ImageUrl,
-            //    Name = villa.Name,
-            //    Occupancy = villa.Occupancy,
-            //    Rate = villa.Rate,
-            //    Sqft = villa.Sqft
-            //};
+                VillaUpdateDTO villaDTO = _mapper.Map<VillaUpdateDTO>(villa); // that one line code replace whole code in blow code.
+                                                                              //VillaUpdateDTO villaDTO = new()
+                                                                              //{
+                                                                              //    Amenity = villa.Amenity,
+                                                                              //    Details = villa.Details,
+                                                                              //    Id = villa.Id,
+                                                                              //    ImageUrl = villa.ImageUrl,
+                                                                              //    Name = villa.Name,
+                                                                              //    Occupancy = villa.Occupancy,
+                                                                              //    Rate = villa.Rate,
+                                                                              //    Sqft = villa.Sqft
+                                                                              //};
 
-            if (villa == null) {  return BadRequest(); }
+                if (villa == null) { return BadRequest(); }
 
-            PatchDTO.ApplyTo(villaDTO, ModelState);
+                PatchDTO.ApplyTo(villaDTO, ModelState);
 
-            Villa model = _mapper.Map<Villa>(villaDTO); // that one line code replace whole code in blow code.
-            //Villa model = new()
-            //{
-            //    Id = villaDTO.Id,
-            //    Name = villaDTO.Name,
-            //    Details = villaDTO.Details,
-            //    Rate = villaDTO.Rate,
-            //    Sqft = villaDTO.Sqft,
-            //    Amenity = villaDTO.Amenity,
-            //    Occupancy = villaDTO.Occupancy,
-            //    ImageUrl = villaDTO.ImageUrl
-            //};
-            await _dbVilla.UpdateAsync(model);
+                Villa model = _mapper.Map<Villa>(villaDTO); // that one line code replace whole code in blow code.
+                                                            //Villa model = new()
+                                                            //{
+                                                            //    Id = villaDTO.Id,
+                                                            //    Name = villaDTO.Name,
+                                                            //    Details = villaDTO.Details,
+                                                            //    Rate = villaDTO.Rate,
+                                                            //    Sqft = villaDTO.Sqft,
+                                                            //    Amenity = villaDTO.Amenity,
+                                                            //    Occupancy = villaDTO.Occupancy,
+                                                            //    ImageUrl = villaDTO.ImageUrl
+                                                            //};
+                await _dbVilla.UpdateAsync(model);
 
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+                if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
-            _response.StatusCode = HttpStatusCode.NoContent;
-            _response.IsSuccess = true;
-            return Ok(_response);
+                _response.StatusCode = HttpStatusCode.NoContent;
+                _response.IsSuccess = true;
+                return Ok(_response);
 
             }
             catch (Exception ex)
