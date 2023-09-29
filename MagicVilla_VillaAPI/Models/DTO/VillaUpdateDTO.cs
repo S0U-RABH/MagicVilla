@@ -20,8 +20,10 @@ namespace MagicVilla_VillaAPI.Models.DTO
         public int Sqft { get; set; }
         [Required]
         public int Occupancy { get; set; }
-        [Required]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? ImageLocalPath { get; set; }
+        public IFormFile? Image { get; set; }
+
         public string Amenity { get; set; }
     }
 }

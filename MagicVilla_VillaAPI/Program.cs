@@ -27,11 +27,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 builder.Services.AddControllers( option => 
     {
-        option.CacheProfiles.Add("Default30",
-            new CacheProfile()
-            {
-                Duration =30
-            });
+        //option.CacheProfiles.Add("Default30",
+        //    new CacheProfile()
+        //    {
+        //        Duration =30
+        //    });
         /*option.ReturnHttpNotAcceptable = true;*/ 
     }
 ).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
@@ -102,6 +102,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
